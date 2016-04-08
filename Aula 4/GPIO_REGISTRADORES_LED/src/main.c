@@ -8,6 +8,8 @@
 */
 
 #include <asf.h>
+#include "Driver/pmc_maua.h"
+#include "Driver/pio_maua.h"
 #include "maua.h"
 
 /**
@@ -23,21 +25,18 @@
 
 int main (void)
 {
-
-	/**
-	* Inicializando o clock do uP
-	*/
+	//Inicializando o clock do uP
 	sysclk_init();
 	
-	/** 
-	*  Desabilitando o WathDog do uP
-	*/
+	//Desabilitando o WathDog do uP
 	WDT->WDT_MR = WDT_MR_WDDIS;
-		
+ 
 	// 29.17.4 PMC Peripheral Clock Enable Register 0
 	// 1: Enables the corresponding peripheral clock.
-	// ID_PIOA = 11 - TAB 11-1
-	PMC->PMC_PCER0 = (1 << ID_PIOA) | (1 <<ID_PIOC) | ( 1 << ID_PIOB) ;
+	/*PMC->PMC_PCER0 = (1 << ID_PIOA) | (1 <<ID_PIOC) | ( 1 << ID_PIOB);*/
+	_pmc_enable_clock_periferico(ID_PIOA);
+	_pmc_enable_clock_periferico(ID_PIOB);
+	_pmc_enable_clock_periferico(ID_PIOC);
 	
 	//31.6.1 PIO Enable Register
 	// 1: Enables the PIO to control the corresponding pin (disables peripheral control of the pin).	
@@ -60,9 +59,8 @@ int main (void)
 	// value = 
 	// 		1 : Sets the data to be driven on the I/O line.
 	// 		0 : do nothing
-	
 	//PIOA->PIO_SODR |= (1 << PIN_LED_BLUE );
-	//PIOA->PIO_CODR |= (1 << PIN_LED_BLUE );		//Liga led azul
+	//PIOA->PIO_CODR |= (1 << PIN_LED_BLUE );
 
 
 	//Configurando I/O line PIOB[3] como INPUT
@@ -70,7 +68,7 @@ int main (void)
     PIOB->PIO_ODR = (1 << PIN_BOTAO);
 	PIOB->PIO_PUER = (1 << PIN_BOTAO);
 
-	//OPCIONAL
+	//OPCIONAL - Debounce
 	PIOB->PIO_SCDR = 1;
 	PIOB->PIO_IFSCER = (1<<PIN_BOTAO);
 	PIOB->PIO_IFER = (1<<PIN_BOTAO);
@@ -78,22 +76,14 @@ int main (void)
 	/**
 	*	Loop infinito
 	*/
-		while(1){
-
-            /*
-             * Utilize a função delay_ms para fazer o led piscar na frequência
-             * escolhida por você.
-             */
-            //delay_ms();
-			
-			if (!(( PIOB->PIO_PDSR >> PIN_BOTAO) & 1))
-			{		
-				turn_on();
-				delay_ms(1000);
-				turn_off();
-				delay_ms(1000);
-			}			
-						
+	while(1){
+		if (!(( PIOB->PIO_PDSR >> PIN_BOTAO) & 1))
+		{		
+			turn_on();
+			delay_ms(1000);
+			turn_off();
+			delay_ms(1000);
+		}						
 	}
 }
 

@@ -447,17 +447,18 @@
     <Folder Include="src\ASF\thirdparty\CMSIS\Lib\" />
     <Folder Include="src\ASF\thirdparty\CMSIS\Lib\GCC\" />
     <Folder Include="src\config\" />
+    <Folder Include="src\Driver" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\asf.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\maua.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\maua.h">
       <SubType>compile</SubType>
     </Compile>
-    <None Include="src\asf.h">
-      <SubType>compile</SubType>
-    </None>
     <None Include="src\config\conf_board.h">
       <SubType>compile</SubType>
     </None>
@@ -906,6 +907,18 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\ASF\sam\utils\syscalls\gcc\syscalls.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\Driver\pio_maua.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\Driver\pio_maua.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\Driver\pmc_maua.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\Driver\pmc_maua.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\main.c">

@@ -25,13 +25,13 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
  10 .debug_macro  00011365  00000000  00000000  00017a07  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_line   0000641d  00000000  00000000  00028d6c  2**0
+ 11 .debug_line   0000643e  00000000  00000000  00028d6c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_str    000509aa  00000000  00000000  0002f189  2**0
+ 12 .debug_str    000509ee  00000000  00000000  0002f1aa  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_frame  00000b38  00000000  00000000  0007fb34  2**2
+ 13 .debug_frame  00000b38  00000000  00000000  0007fb98  2**2
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_loc    00002285  00000000  00000000  0008066c  2**0
+ 14 .debug_loc    00002285  00000000  00000000  000806d0  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -126,7 +126,7 @@ Disassembly of section .text:
 
 00400128 <turn_on>:
 
-#include "maua.h"
+#include "Driver/pio_maua.h"
 
 void turn_on(void)
 {
@@ -1185,10 +1185,10 @@ int main (void)
   4005fc:	f8c3 2084 	str.w	r2, [r3, #132]	; 0x84
 	PIOB->PIO_IFER = (1<<PIN_BOTAO);
   400600:	621a      	str	r2, [r3, #32]
+            /*
              * Utilize a função delay_ms para fazer o led piscar na frequência
              * escolhida por você.
              */
-            //delay_ms();
 			
 			if (!(( PIOB->PIO_PDSR >> PIN_BOTAO) & 1))
   400602:	461c      	mov	r4, r3
@@ -1196,10 +1196,10 @@ int main (void)
 				turn_on();
 				delay_ms(1000);
   400604:	4e0a      	ldr	r6, [pc, #40]	; (400630 <main+0x80>)
+            /*
              * Utilize a função delay_ms para fazer o led piscar na frequência
              * escolhida por você.
              */
-            //delay_ms();
 			
 			if (!(( PIOB->PIO_PDSR >> PIN_BOTAO) & 1))
   400606:	6be3      	ldr	r3, [r4, #60]	; 0x3c
