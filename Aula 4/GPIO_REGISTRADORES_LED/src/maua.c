@@ -1,4 +1,3 @@
-
 #include "maua.h"
 
 void turn_on(void)
